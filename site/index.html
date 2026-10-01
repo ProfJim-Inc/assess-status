@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creatium Assess status</title>
+<meta name="description" content="Live and past availability of Creatium Assess and its Partner API.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%2310515a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page: #f7f2ea; --card: #fffdf9; --sunk: #f2ece1; --hairline: #e4ded2;
+    --ink: #1a1d1c; --ink-2: #5b605e; --teal: #10515a; --teal-wash: #e3eef0;
+    --gold: #a9803e; --gold-ink: #7a551e; --gold-wash: rgba(217, 167, 62, 0.16);
+    --terra: #a3321a; --terra-wash: #fbe9e3; --empty: #e9e3d8;
+    --shadow: 0 18px 40px -28px rgba(26, 29, 28, 0.35);
+    --gutter: clamp(16px, 5vw, 64px);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: var(--page); color: var(--ink); font: 16px/1.5 'Hanken Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: var(--teal); text-underline-offset: 3px; }
+  a:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; border-radius: 6px; }
+  h1, h2, h3, p { margin: 0; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px var(--gutter); }
+  header img { display: block; width: 236px; max-width: 60vw; height: auto; }
+  .pill-link { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 999px; font-size: 14px; font-weight: 500; text-decoration: none; color: var(--teal); border: 1px solid rgba(16, 81, 90, 0.22); background: rgba(255, 253, 249, 0.72); white-space: nowrap; }
+  main { max-width: 980px; padding: 12px var(--gutter) 72px; margin: 0 auto 0 0; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  h1 { font-size: clamp(36px, 4.4vw, 54px); line-height: 1.06; font-weight: 400; letter-spacing: -0.03em; text-wrap: balance; }
+  h1 span { color: var(--teal); }
+  h1.partial span { color: var(--gold-ink); }
+  h1.major span { color: var(--terra); }
+  .lede { margin-top: 14px; color: var(--ink-2); font-size: 17px; }
+  section { margin-top: 40px; }
+  h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 12px; }
+  .card { background: var(--card); border: 1px solid var(--hairline); border-radius: 20px; box-shadow: var(--shadow); }
+  .notice { padding: 18px 22px; margin-bottom: 12px; border-left: 4px solid var(--gold); }
+  .notice.resolved { border-left-color: var(--teal); }
+  .notice.maintenance { border-left-color: var(--teal); }
+  .notice h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+  .notice p { margin-top: 6px; }
+  .notice .when { font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+  .service { padding: 18px 22px; border-top: 1px solid var(--hairline); }
+  .service:first-child { border-top: 0; }
+  .row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .name { font-weight: 600; font-size: 17px; }
+  .state { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; padding: 4px 12px; border-radius: 999px; }
+  .state::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .state.up { color: var(--teal); background: var(--teal-wash); }
+  .state.down { color: var(--terra); background: var(--terra-wash); }
+  .state.unknown { color: var(--ink-2); background: var(--sunk); }
+  .bars { display: grid; grid-template-columns: repeat(90, 1fr); gap: 2px; margin-top: 14px; height: 34px; }
+  .bars span { border-radius: 3px; background: var(--empty); }
+  .bars .ok { background: var(--teal); }
+  .bars .warn { background: var(--gold); }
+  .bars .bad { background: var(--terra); }
+  .meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 8px; font-size: 13px; color: var(--ink-2); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); margin-top: 12px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  footer { margin-top: 48px; font-size: 14px; color: var(--ink-2); display: grid; gap: 8px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (max-width: 640px) { .bars { grid-template-columns: repeat(45, 1fr); } .bars span:nth-child(-n+45) { display: none; } }
+</style>
+</head>
+<body>
+<header>
+  <a href="https://app.assess.creatium.com/docs"><img src="lockup.svg" alt="Creatium Assess"></a>
+  <a class="pill-link" href="https://app.assess.creatium.com/docs">API reference</a>
+</header>
+<main>
+  <p class="eyebrow">Status</p>
+  <h1 id="headline">Checking<span>…</span></h1>
+  <p class="lede" id="checked" aria-live="polite"></p>
+
+  <section id="notices-section" hidden>
+    <h2>Incidents and maintenance</h2>
+    <div id="notices"></div>
+  </section>
+
+  <div id="groups"></div>
+
+  <div class="legend" aria-hidden="true">
+    <span><i style="background:var(--teal)"></i>Up all day</span>
+    <span><i style="background:var(--gold)"></i>Some checks failed</span>
+    <span><i style="background:var(--terra)"></i>Down for over an hour</span>
+    <span><i style="background:var(--empty)"></i>No data</span>
+  </div>
+
+  <footer>
+    <p>The production API is available 99.5% of each calendar month, excluding maintenance announced 48 hours ahead. Every service is checked from outside about every five minutes; a failed check is retried once before it counts.</p>
+    <p>Support: <a href="mailto:support@creatium.com">support@creatium.com</a> or your Slack group. Production down: we respond within 4 hours at the latest.</p>
+  </footer>
+</main>
+<script>
+  const pct = (up, n) => (n ? (100 * up) / n : null);
+  const fmt = (p) => (p === null ? '–' : p === 100 ? '100%' : `${p.toFixed(p >= 99.9 ? 2 : 1)}%`);
+  const ago = (iso) => {
+    const m = Math.round((Date.now() - Date.parse(iso)) / 60000);
+    return m < 1 ? 'just now' : m === 1 ? 'a minute ago' : m < 60 ? `${m} minutes ago` : `${Math.round(m / 60)} hours ago`;
+  };
+  const el = (tag, attrs = {}, text) => { const e = document.createElement(tag); Object.assign(e, attrs); if (text !== undefined) {e.textContent = text;} return e; };
+
+  function days() {
+    const out = [];
+    for (let i = 89; i >= 0; i -= 1) {out.push(new Date(Date.now() - i * 86400000).toISOString().slice(0, 10));}
+    return out;
+  }
+
+  function renderNotices(list) {
+    const recent = list.filter((n) => n.status !== 'resolved' || Date.now() - Date.parse(n.date) < 14 * 86400000)
+      .sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+    document.getElementById('notices-section').hidden = recent.length === 0;
+    const box = document.getElementById('notices');
+    box.replaceChildren(...recent.map((n) => {
+      const card = el('article', { className: `card notice ${n.status}` });
+      card.append(el('h3', {}, n.title), el('p', {}, n.body), el('p', { className: 'when' }, `${n.status[0].toUpperCase()}${n.status.slice(1)} · ${new Date(n.date).toLocaleString()}`));
+      return card;
+    }));
+    return recent.some((n) => n.status !== 'resolved' && n.status !== 'maintenance');
+  }
+
+  function render(summary, openIncident) {
+    const ids = summary.order.filter((id) => summary.targets[id]);
+    const current = (t) => t.recent.at(-1);
+    const prod = ids.filter((id) => summary.targets[id].group === 'Production');
+    const prodDown = prod.filter((id) => current(summary.targets[id]) && !current(summary.targets[id]).ok).length;
+    const h = document.getElementById('headline');
+    const stale = Date.now() - Date.parse(summary.checkedAt) > 20 * 60000;
+    if (prodDown === 0 && !openIncident) { h.className = ''; h.innerHTML = 'All systems <span>operational</span>'; }
+    else if (prodDown === prod.length) { h.className = 'major'; h.innerHTML = 'Major <span>outage</span>'; }
+    else { h.className = 'partial'; h.innerHTML = prodDown ? 'Partial <span>outage</span>' : 'Under <span>investigation</span>'; }
+    document.getElementById('checked').textContent = `Last checked ${ago(summary.checkedAt)}.${stale ? ' Checks are running late; the services themselves may be fine.' : ''}`;
+
+    const groups = [...new Set(ids.map((id) => summary.targets[id].group))];
+    const span = days();
+    document.getElementById('groups').replaceChildren(...groups.map((g) => {
+      const sec = el('section');
+      sec.append(el('h2', {}, g));
+      const card = el('div', { className: 'card' });
+      for (const id of ids.filter((x) => summary.targets[x].group === g)) {
+        const t = summary.targets[id];
+        const now = current(t);
+        let up = 0; let n = 0;
+        for (const d of Object.values(t.days)) { up += d.up; n += d.checks; }
+        const month = new Date().toISOString().slice(0, 7);
+        let mu = 0; let mn = 0;
+        for (const [k, d] of Object.entries(t.days)) {if (k.startsWith(month)) { mu += d.up; mn += d.checks; }}
+        const today = t.days[new Date().toISOString().slice(0, 10)];
+        const row = el('div', { className: 'service' });
+        const head = el('div', { className: 'row' });
+        head.append(el('span', { className: 'name' }, t.name), el('span', { className: `state ${now ? (now.ok ? 'up' : 'down') : 'unknown'}` }, now ? (now.ok ? 'Operational' : 'Down') : 'No data yet'));
+        const bars = el('div', { className: 'bars', role: 'img' });
+        bars.setAttribute('aria-label', `${t.name}: ${fmt(pct(up, n))} available over 90 days`);
+        for (const d of span) {
+          const c = t.days[d];
+          const p = c ? pct(c.up, c.checks) : null;
+          const misses = c ? c.checks - c.up : 0;
+          const bar = el('span', { className: p === null ? '' : misses === 0 ? 'ok' : misses > 12 ? 'bad' : 'warn', title: c ? `${d}: ${fmt(p)} of ${c.checks} checks up` : `${d}: no data` });
+          bars.append(bar);
+        }
+        const meta = el('div', { className: 'meta' });
+        meta.append(el('span', {}, `${fmt(pct(up, n))} over 90 days · ${fmt(pct(mu, mn))} this month`), el('span', {}, today && today.checks ? `${Math.round(today.ms / today.checks)} ms average today` : ''));
+        row.append(head, bars, meta);
+        card.append(row);
+      }
+      sec.append(card);
+      return sec;
+    }));
+  }
+
+  async function load() {
+    try {
+      const [summary, notices] = await Promise.all([
+        fetch(`data/summary.json?t=${Date.now()}`).then((r) => r.json()),
+        fetch(`data/notices.json?t=${Date.now()}`).then((r) => r.json()).catch(() => []),
+      ]);
+      render(summary, renderNotices(notices));
+    } catch {
+      document.getElementById('checked').textContent = 'No checks recorded yet. They start within five minutes.';
+    }
+  }
+  load();
+  setInterval(load, 60000);
+</script>
+</body>
+</html>

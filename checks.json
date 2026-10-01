@@ -1,0 +1,10 @@
+[
+  { "id": "api", "name": "Partner API", "group": "Production", "url": "https://app.assess.creatium.com/api/v1/health", "expect": [200],
+    "fallback": { "url": "https://app.assess.creatium.com/api/v1/assessments", "expect": [401] } },
+  { "id": "app", "name": "Assessments for learners", "group": "Production", "url": "https://app.assess.creatium.com/sign-in", "expect": [200] },
+  { "id": "designer", "name": "Assessment Designer", "group": "Production", "url": "https://designer.assess.creatium.com/", "expect": [200, 307] },
+  { "id": "admin", "name": "Admin portal", "group": "Production", "url": "https://admin.assess.creatium.com/", "expect": [200, 307] },
+  { "id": "docs", "name": "API reference", "group": "Production", "url": "https://app.assess.creatium.com/docs", "expect": [200] },
+  { "id": "staging-api", "name": "Sandbox API (staging)", "group": "Staging", "url": "https://staging.app.assess.creatium.com/api/v1/health", "expect": [200],
+    "fallback": { "url": "https://staging.app.assess.creatium.com/api/v1/assessments", "expect": [401] } }
+]
